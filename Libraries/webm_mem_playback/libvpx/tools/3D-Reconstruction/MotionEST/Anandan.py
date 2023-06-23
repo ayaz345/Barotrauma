@@ -119,9 +119,10 @@ class Anandan(MotionEST):
         if last_mvs is None:
           init_mvs = [np.array([0, 0])]
         else:
-          for i, j in {(r, c), (r, c + 1), (r + 1, c), (r + 1, c + 1)}:
-            if 0 <= i < last_mvs.shape[0] and 0 <= j < last_mvs.shape[1]:
-              init_mvs.append(last_mvs[i, j])
+          init_mvs.extend(
+              last_mvs[i, j]
+              for i, j in {(r, c), (r, c + 1), (r + 1, c), (r + 1, c + 1)}
+              if 0 <= i < last_mvs.shape[0] and 0 <= j < last_mvs.shape[1])
         #use last matching results as the start postion as current level
         min_ssd = None
         min_mv = None
@@ -158,8 +159,7 @@ class Anandan(MotionEST):
         w_min = c_min[r, c] / (
             self.k1 + self.k2 * min_ssds[r, c] + self.k3 * c_min[r, c])
         w = w_max * w_min / (w_max + w_min + 1e-6)
-        if w < 0:
-          w = 0
+        w = max(w, 0)
         avg_uv = np.array([0.0, 0.0])
         for i, j in {(r - 1, c), (r + 1, c), (r, c - 1), (r, c + 1)}:
           if 0 <= i < self.num_row and 0 <= j < self.num_col:

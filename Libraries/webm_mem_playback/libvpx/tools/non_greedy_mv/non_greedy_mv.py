@@ -114,7 +114,7 @@ def read_frame_dpl_stats(fp):
   mv_ls = []
   mv_rows = int((math.ceil(mi_rows * 1. / mi_size)))
   mv_cols = int((math.ceil(mi_cols * 1. / mi_size)))
-  for i in range(mv_rows * mv_cols):
+  for _ in range(mv_rows * mv_cols):
     line = fp.readline()
     word_ls = line.split()
     row = int(word_ls[0]) * 8.

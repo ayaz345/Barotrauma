@@ -56,21 +56,21 @@ if __name__ == "__main__":
         frames_mv.append((idx, img))
       else:
         frames.append((idx, img))
-  if len(frames) == 0:
-    print("No frames in directory: " + args.frame_path)
+  if not frames:
+    print(f"No frames in directory: {args.frame_path}")
     sys.exit()
   print("----------------------Y4M Info----------------------")
   print("width:  %d" % frames[0][1].width)
   print("height: %d" % frames[0][1].height)
   print("#frame: %d" % len(frames))
-  print("frame rate: %s" % args.frame_rate)
-  print("interlacing: %s" % args.interlacing)
-  print("pixel ratio: %s" % args.pix_ratio)
-  print("color space: %s" % args.color_space)
+  print(f"frame rate: {args.frame_rate}")
+  print(f"interlacing: {args.interlacing}")
+  print(f"pixel ratio: {args.pix_ratio}")
+  print(f"color space: {args.color_space}")
   print("----------------------------------------------------")
 
   print("Generating ...")
   generate(args, frames)
-  if len(frames_mv) != 0:
+  if frames_mv:
     args.output = args.output.replace(".y4m", "_mv.y4m")
     generate(args, frames_mv)

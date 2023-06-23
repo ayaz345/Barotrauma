@@ -191,8 +191,7 @@ class ExhaustNeighborFeatureScore(MotionEST):
         lambda_min = 0.5 * ((IxIx + IyIy) - np.sqrt(4 * IxIy * IxIy +
                                                     (IxIx - IyIy)**2))
         fs[r, c] = lambda_max * lambda_min / (1e-6 + lambda_max + lambda_min)
-        if fs[r, c] < 0:
-          fs[r, c] = 0
+        fs[r, c] = max(fs[r, c], 0)
     return fs
 
   """
